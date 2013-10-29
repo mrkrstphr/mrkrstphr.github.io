@@ -1,0 +1,5 @@
+body {font: 14pt Georgia, 'Times New Roman', serif; padding: 30px}
+.container {max-width: 720px}
+#disqus_thread {border-top: 2px solid rgba(0,49,79,.08); margin-top: 32px; padding-top: 16px}
+pre {background-color: inherit; margin-top: 10px}
+code {font-size: 10pt}

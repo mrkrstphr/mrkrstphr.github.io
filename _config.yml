@@ -1,4 +1,6 @@
 name: Ramblings of Kristopher
+safe: true
+lsi: false
 markdown: redcarpet
 pygments: true
 permalink: /:year/:month/:day/:title
