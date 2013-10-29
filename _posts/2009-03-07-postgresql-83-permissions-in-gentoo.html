@@ -1,0 +1,31 @@
+---
+layout: post
+title: PostgreSQL 8.3 Permissions in Gentoo
+categories:
+- Linux
+tags:
+- Gentoo
+- PostgreSQL
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _wp_jd_bitly: ''
+  _jd_twitter: ''
+  _wp_jd_clig: ''
+  _jd_tweet_this: 'yes'
+  _wp_jd_wp: ''
+  _wp_jd_yourls: ''
+  _wp_jd_url: ''
+  _wp_jd_target: ''
+  _jd_wp_twitter: ''
+  _jd_post_meta_fixed: 'true'
+---
+PostgreSQL 8.3 in Gentoo now creates the socket in /var/run/postgresql with stricter permissions, meaning that regular users cannot connect to the PostgreSQL server via command line. Emerging this package outputs a message about this that I initially missed when installing:
+
+<blockquote>Please note that the standard location of the socket has changed from /tmp to /var/run/postgresql and you have to be in the 'postgres' group to access the socket.</blockquote>
+
+This means that regular users who need access to the PostgreSQL server need to be added to the postgres group:
+
+<pre class="prettyprint">gpasswd -a user postgres</pre>

@@ -1,0 +1,30 @@
+---
+layout: post
+title: Failed Kernel Upgrade
+categories:
+- Linux
+tags:
+- Gentoo
+- Linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+The other day I upgraded my Gentoo kernel (after realizing I was about 7 kernel updates old). After compiling and setting up Grub, I rebooted and received this error:
+
+<blockquote>RAMDISK: Compressed image found at block 0
+RAMDISK: ran out of compressed data
+invalid compressed format (err=1)
+UDF-fs: No VRS found
+List of all partitions:
+...
+No file system could mount root, tried: ...
+Kernel panic - not syncing: VFS: unable to mount root fs on unknown-block(1,0)</blockquote>
+
+After painful research, I finally discovered the problem: I ran out of space on my boot partition. 
+
+Apparently genkernel does not complain when it runs out of space to compile the kernel. It just stops and outputs the same message it would it if succeeded. 
+
+A "quick" use of parted to allocate more space to the boot partition, and re-compiling the kernel solved the problem. It's just sad that genkernel doesn't bother reporting the fact that it ran out of space.

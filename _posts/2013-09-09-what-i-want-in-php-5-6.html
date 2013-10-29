@@ -1,0 +1,56 @@
+---
+layout: post
+title: What I Want in PHP 5.6
+categories:
+- Development
+tags:
+- development
+- Ideas
+- PHP
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+---
+PHP 5.5 has been available for a few months now, and I'm already getting excited at what might be released in PHP 5.6. Versions 5.0 through 5.5 have each iteratively brought some very exciting features, and I'd love to see that process continue.
+
+Already accepted is an RFC that allows for <a href="https://wiki.php.net/rfc/use_function" target="_blank">importing namespaced functions</a>, just like you can with classes. That one doesn't excite me too much as I don't really use class-less functions in my day-to-day coding. 
+
+There are quite a few things I'd love to see someday: 
+
+<h3>1. Type-Hinting for Scalar Values</h3>
+
+PHP 5 <a href="http://php.net/manual/en/language.oop5.typehinting.php" target="_blank">introduced type hinting</a> for class and array (and later, <code>callable</code>) arguments to functions and methods, which is fantastic. 
+
+This feature allows you to ensure that the data being passed to your function is exactly what you expected it to be. But this same feature doesn't yet apply to scalar values, such as string, int, float, etc. This feature has several caveats with implementing as PHP is a loosely typed language. All incoming <code>POST</code> data is automatically a string, so if you type hinted for an int, your code might blow up. 
+
+But PHP already does a good job at handing this, like whenever you do math on a string and it automatically gets converted to an integer or float. I don't think it'd be a big deal to extend this same automatic conversion to function/method type hinting as well. 
+
+There have been <a href="https://wiki.php.net/rfc/typechecking" target="_blank">several RFCs discussing these features</a>, and, unfortunately, none of them have ever really gained traction. 
+
+<h3>3. Named Parameters</h3>
+
+Named parameters is a sweet feature that allows you to specify the parameters of a function or method in any order you want by naming them with the value. This also allows you to skip optional parameters, rather than supplying the default. 
+
+Consider a function that takes a handful of arguments: 
+
+<pre class="prettyprint">
+public function update($customerId, $orderNumber, $shipDate = null, $total = 0, $comments = '')
+{
+    // ...
+}
+</pre>
+
+A <a href="https://wiki.php.net/rfc/named_params" target="_blank">recently submitted RFC</a> has brought this feature back up again.
+
+<h3>4. <code>ReflectionAnnotation</code> Support</h3>
+
+PHP has a great set of <a href="http://php.net/reflection" target="_blank">Reflection classes</a> that allow you to figure out just about anything you want about a class, method, member variable, etc, but it doesn't have built in support to parse annotations/docblocks. It only allows you to get the annotations as a blob of text. 
+
+There are several times when these dockblock annotations can be used to help drive implementation or discover information about a class, especially since PHP isn't a strongly typed language with type-hinting on method calls (see #1) above. 
+
+Several people, including myself, have written their own library to parse these, but it'd be nice if PHP built in the support natively to compliment the rest of the built-in Refelection classes. 
+
+Again, <a href="https://wiki.php.net/rfc/annotations-in-docblock" target="_blank">an RFC</a> is already available for this requested feature.

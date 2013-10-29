@@ -1,0 +1,250 @@
+---
+layout: post
+title: Object Oriented PHP for People who Don't Know WTF That Means
+categories:
+- Development
+- Programming
+tags:
+- object oriented
+- oop
+- PHP
+- programming
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+---
+So you're a PHP developer making websites or small apps. Maybe you're self taught and lately have been looking for a new gig. Or you were searching around the web for new ideas and reading various articles. You keep hearing the same phrase over and over again: Objected Oriented Programming. OOP. You Google it, but still don't quite get it. You scrape the pages of the manual, but it's so...technical. 
+
+In the coarse of interviewing people for PHP jobs here in <a href="http://www.mlive.com/business/west-michigan/index.ssf/2013/05/grand_rapids_wins_beer_city_us.html">Beer City, USA</a>, we come across quote the spread of development talent in the PHP realm. I attribute this mostly to PHP being such a broad language, where one can do procedural, spaghetti code, or highly object oriented code. It also has a rough history and has done quite a bit of <a href="http://www.php.net/ChangeLog-5.php">leveling up in the past 10 years</a>. 
+
+So what is this OOP, in terms of PHP? 
+
+<h3>Everything Starts with a Class</h3> 
+
+A class is the fundamental concept of all of Object Oriented programming. You'd probably think an object was, and you'd be really close. A <strong>class</strong> is simply the definition of an object. It's a blueprint. It tells us what an object is. So what's an object? An <strong>object</strong> is something; anything. Something that can be described or something that does something and interacts with other somethings. That's pretty vague, huh? 
+
+An object can be a car, a person, a house, a baseball bat or a trophy. Anything that exists and can be described. And again, a class is the description of an object. We define a class like so, in PHP: 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+
+}
+</pre>
+
+That's pretty simply. We use the <code>class</code> keyword to let PHP know we're about to define a class, then we give it a unique identifier, <code>Car</code>, and finally, some old fashioned curly brackets. This is all well and good so far, but it's pretty boring. It's just a named something. We'll get around to giving the <code>Car</code> some actual definition in a minute. 
+
+So now that we have a class, how do we get one of these objects? It's simple: we instantiate it. <strong>Instantiating an object</strong> means that we are creating an instance of the class. Whereas the class is a blueprint, the instance of the class, or the object, is the built house. The finish product that was created based on the blueprint. Let's instantiate a <code>Car</code>:
+
+<pre class="prettyprint language-php"><?php
+
+$mustang = new Car();
+</pre>
+
+To create (or instantiate) an object, we use the <code>new</code> keyword to tell PHP we want to instantiate a new object, then we give it the name of the class we want to instantiate, in our case <code>Car</code>. Finally (since everything on the right side of the equal sign happens first), we assign the result of that to the variable <code>$mustang</code>. Those parenthesis have good meaning, and we'll explain them later, but for now just know that they should be there (although they are optional, if you're writing ugly code).
+
+Now we have an object, <code>$mustang</code>, of the class <code>Car</code>. If you were to do a <code>var_dump()</code> on $mustang, you'd see that it was an instance of <code>Car</code>:
+
+<pre class="prettyprint language-text">class Car#1 (0) {
+}</pre>
+
+<h3>Giving Definition to Classes</h3>
+
+So what's so special about this? Nothing, yet. But when we give definition to our class, that's when things become interesting. 
+
+Classes are also a sort of a collection. They are a collection of variables and functions that describe and give action to a class, respectively. When these variables are inside of a class, we call them member variables or properties. When a function is inside a class, we call it a method. 
+
+So let's give our <code>Car</code> some definition by giving it some properties that describe it: 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    public $make; 
+    public $model;
+    public $year;
+    public $color;
+}
+</pre>
+
+Here we are giving the class four member variables/properties. Before the declaration of the properties, we're also telling PHP that these are <code>public</code> member variables. Let's not worry too much about what that means right now, we'll describe that in just a little bit. Now our class <code>Car</code> contains some properties that will describe an instantiated object. Let's set those properties on our object: 
+
+<pre class="prettyprint language-php"><?php
+
+$mustang = new Car();
+$mustang->make = 'Ford';
+$mustang->model = 'Mustang';
+$mustang->year = 1972;
+$mustang->color = 'Black';
+
+echo "My Car is a " . $mustang->year . " " . $mustang->color . " " . 
+    $mustang->make . " " . $mustang->model . "\n";
+</pre>
+
+Now we've made our <code>$mustang</code> interesting! We've given it several attributes that describe it, and you should immediately understand how this would become useful in code. Before, you would have needed several variables or an array to store all this information, now you have a nice, defined little class. 
+
+To access the variable of the class, we use the object operator (<code>-></code>) which allows us to reach in the class and grab or set one of the variables. In the first few lines, we're using this operator to set the variables. Later, when <code>echo</code>ing, we're using to to retrieve the values and concatenate them with a string to output.
+
+<h2>Using Methods</h2> 
+
+Now that we have some member variables defined for our class, let's add a member method to the class that helps us describe it:
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    public $make; 
+    public $model;
+    public $year;
+    public $color;
+
+    public function describe()
+    {
+        return "My Car is a " . $this->year . " " . $this->color . " " . 
+            $this->make . " " . $this->model . "\n";
+    }
+}
+</pre>
+
+Here we've given our class a member method, which you'll notice looks a lot like a PHP function, just with a public keyword before it (I promise, we'll discuss that soon). This method <code>describe()</code> returns a description of the <code>Car</code>. 
+
+Notice that it uses a variable <code>$this</code>. <code>$this</code> is a special variable inside PHP classes that simply refer to the instance (or object) of the class. This allows us to access our member variables from our member method, and even allows accessing other member methods. 
+
+We can now refactor our instantiation code to look like this: 
+
+<pre class="prettyprint language-php"><?php
+
+$mustang = new Car();
+$mustang->make = 'Ford';
+$mustang->model = 'Mustang';
+$mustang->year = 1972;
+$mustang->color = 'Black';
+
+echo $mustang->describe();
+</pre>
+
+We've replaced accessing the member variables directly with echoing out the result of the <code>describe()</code> method. Notice that we access methods of the class the same way we access variables of the class. 
+
+<h3>Using the __construct()or</h3>
+
+There are several magic methods involved in PHP OOP. These are methods that have special meaning in the class, cannot be called directly, but are instead called when specific things happen in the code, and all of them just happen to start with two underscores (<code>__</code>). For now, we'll just mention the <code>__construct()</code> method. 
+
+The <code>__construct()</code> method is the constructor of the class. This <strong>constructor</strong> is a method that is automatically called every time you instantiate a class to create a new object. This allows us to do whatever we need to do right away to prepare the class for use. 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    public $make; 
+    public $model;
+    public $year;
+    public $color;
+
+    public function __construct()
+    {
+
+    }
+
+    public function describe()
+    {
+        return "My Car is a " . $this->year . " " . $this->color . " " . 
+            $this->make . " " . $this->model . "\n";
+    }
+}
+</pre>
+
+This is an empty constructor. It doesn't do anything. If you wanted, you could throw an <code>echo</code> statement in there, just to verify that it gets called when you run your instantiate example. But another very helpful thing about constructors: they can accept arguments: 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    // ...
+
+    public function __construct($make, $model, $year, $color)
+    {
+        $this->make = $make;
+        $this->model = $model;
+        $this->year = $year;
+        $this->color = $color;
+    }
+
+    // ...
+}
+</pre>
+
+Here, we're definition that the constructor has 4 arguments, which just so happen to match our four member variables. In the constructor, we take all of these variables and we assign them to their member variable counterparts. Now we have to go refactor our example code to actually pass those values in: 
+
+<pre class="prettyprint language-php"><?php
+
+$mustang = new Car('Ford', 'Mustang', 1972, 'Black');
+echo $mustang->describe();
+</pre>
+
+Look at that: we just made our code much simpler! We pass in values to the constructor using the previously empty parenthesis, which get routed to our <code>__construct()</code> method. 
+
+Note that these arguments to the constructor are required. We could make some of them optional, just like we do with a regular function: 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    // ...
+
+    public function __construct($make, $model, $year = '', $color = '')
+    {
+        $this->make = $make;
+        $this->model = $model;
+        $this->year = $year;
+        $this->color = $color;
+    }
+
+    // ...
+}
+</pre>
+
+Now only <code>$make</code> and <code>$model</code> are required. If one or both is not supplied, <code>$year</code> and <code>$color</code> get set to an empty string. 
+
+<h3>Finally: What is public</h3>
+
+We've throw the keyword <code>public</code> around all over this class file, what does it mean? 
+
+The <code>public</code> keyword dictates that the member variable or method is publicly available from any scope. The <strong>scope</strong> of a variable or function determines what other piece of code can access it. There are three options for this in PHP: 
+
+<ol><li><strong>public</strong>: anything declared in the public scope of a class can be accessed from anywhere else in the code. It is publicly available.</li>
+<li><strong>private</code>: anything declared in the private scope of a class can only be access from within that class. Code outside of the class (like our original code where we were setting the member variables after instantiating) cannot access the member variable or method.</li>
+<li><strong>protected</code>: anything declared in the protected scope can be access from anywhere within the class, like private, but can also be access from subclasses or child classes. We'll talk about those later</li></ul>
+
+So let's go ahead and see what happens if we change our member variables to be private: 
+
+<pre class="prettyprint language-php"><?php
+
+class Car
+{
+    private $make; 
+    private $model;
+    private $year;
+    private $color;
+
+    // ...
+}
+</pre>
+
+Now run your code. Note that nothing changed; everything works fine. This is because we're only accessing these variables from within the class, specifically in the <code>__construct()</code> and <code>describe()</code> methods. But if we were to try to access them from outside of the class/object: 
+
+<pre class="prettyprint language-php"><?php
+
+$mustang = new Car('Ford', 'Mustang');
+$mustang->year = 1979;
+echo $mustang->describe();
+</pre>
+
+We'll get an error because we tried to access a private member variable. 
+
+This is a problem now. We made the last two parameters to the constructor optional, but now we can set the values outside of the class? How can we fix this? 
+
+The next chapter in this series is coming soon, and will cover getter and setter methods of a class. 

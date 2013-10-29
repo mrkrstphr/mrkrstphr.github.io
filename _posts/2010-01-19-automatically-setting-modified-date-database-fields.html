@@ -1,0 +1,59 @@
+---
+layout: post
+title: Automatically Setting Modified Date Database Fields
+categories:
+- Database
+tags:
+- PostgreSQL
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+  _jd_twitter: ''
+  _wp_jd_clig: ''
+  _wp_jd_bitly: ''
+  _wp_jd_wp: ''
+  _wp_jd_yourls: ''
+  _wp_jd_url: ''
+  _wp_jd_target: ''
+  _jd_wp_twitter: ''
+  _jd_post_meta_fixed: 'true'
+---
+Most of my database tables always have four columns in common:
+
+<pre class="prettyprint language-sql">created_on timestamp
+created_by_id int
+last_modified_on timestamp
+last_modified_by_id int</pre>
+
+These columns should be pretty self explanatory. Usually created_on has a default of <code>now()</code> to auto populate it. Populating the <code>last_modified_on</code> column is a little more difficult, especially if you don't want it to be populated on INSERT (which is what using <code>default now()</code>) would do. 
+
+Of course we could just provide for it in our code, especially if using a trusty application framework that takes care of it for us, but I like putting basic logic in the database, and we can't assume all data updates will come from our application. They could, for example, come from a command line update. 
+
+I crafted this quick little database trigger function for taking care of this for me:
+
+<pre class="prettyprint language-sql">CREATE OR REPLACE FUNCTION auto_update_last_modified()
+  RETURNS trigger AS
+$BODY$
+DECLARE
+BEGIN
+	NEW.last_modified_on:= now();
+
+	return NEW;
+END;
+$BODY$
+  LANGUAGE 'plpgsql';
+</pre>
+
+This function simply populates the <code>last_modified_on</code> column of <code>NEW</code> (the new record being updated) with the current timestamp. Now I can add a trigger to every table that has this column:
+
+<pre class="prettyprint language-sql">CREATE TRIGGER auto_update_table_name_last_modified
+  BEFORE UPDATE
+  ON table_name
+  FOR EACH ROW
+  EXECUTE PROCEDURE auto_update_last_modified();
+</pre> 
+
+And now when updating a record in table_name, it will automatically populate a value for <code>last_modified_on</code>. 

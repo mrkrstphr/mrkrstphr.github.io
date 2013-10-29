@@ -1,0 +1,48 @@
+---
+layout: post
+title: Introducing Clover Dump
+categories:
+- Development
+- Tools
+tags:
+- clover
+- continuous integration
+- PHP
+- phpunit
+- Tools
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+---
+I wrote a tiny little tool that simply takes a <code>clover.xml</code> file and dumps out the coverage information to the console. Why is this useful? I use it for Continuous Integration servers, like <a href="https://travis-ci.org/">Travis CI</a> so that I have a visual representation of my code coverage. <!--more-->
+
+Add it to your project's dependencies with <a href="">Composer</a>:
+
+<pre class="prettyprint">require: {
+    "clover/dump": "1.*"
+}</pre>
+
+Using it is simple: 
+
+<pre class="prettyprint language-bash">$ vendor/bin/clover-dump build/logs/clover.xml</pre>
+
+The output will be similar to: 
+
+<pre style="background-color: #111; color: #fff; padding: 4px;">Clover Code Coverage Report:
+
+ - <span style="color: #49B04D;">100.00%</span> PhpGedcom\Gedcom
+ -   <span style="color: #CE3219;">0.00%</span> PhpGedcom\Record
+ -   <span style="color: #CE3219;">0.00%</span> PhpGedcom\Record\Addr
+ -  <span style="color: #CE3219;">50.00%</span> PhpGedcom\Record\Caln
+ -   <span style="color: #CE3219;">0.00%</span> PhpGedcom\Record\Chan
+ -  <span style="color: #CE3219;">37.93%</span> PhpGedcom\Record\Fam
+ -  <span style="color: #49B04D;">95.83%</span> PhpGedcom\Record\Head
+ -  <span style="color: #CE3219;">38.26%</span> PhpGedcom\Record\Indi
+ -  <span style="color: #E1AA2B;">61.54%</span> PhpGedcom\Record\Note
+<span style="color: #CE3219;">Code Coverage: 55.19%</span>
+</pre>
+
+It's that simple. Suggestions, comments, bugs, enhancements? Hit up the <a href="https://github.com/mrkrstphr/clover-dump">GitHub page</a>. 

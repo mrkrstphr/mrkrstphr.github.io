@@ -1,0 +1,45 @@
+---
+layout: post
+title: PostgreSQL 8.4.2-r1 on Gentoo
+categories:
+- Linux
+tags:
+- PostgreSQL
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+A new version of PostgreSQL, 8.4.2-r1, is available in Gentoo Portage, but be careful. It appears the server is compiled with HAVE_INT64_TIMESTAMP by default, something not true with previous versions. Because of this, after updating, you might get an error about the data cluster being incompatibile with the server when you restart, unless you were using the pg-intdatetime use flag in previous versions (which has been removed in the newest version). 
+
+<!--more-->
+If you run into this issue, add the use flags -pg-intdatetime pg_legacytimestamp to dev-db/postgresql-base in /etc/portage/package.use and downgrade to the last version (8.4.2). After this, you should be able to do a pg_dumpall to backup all your databases. After doing so, remove the two new use flags from package.use and re-emerge the newer version (8.4.2-r1). Restore the database and you should be all good. 
+
+Specifically: 
+
+<pre lang="bash">
+# add the two use flags
+
+emerge --pretend =dev-db/postgresql-database-8.4.2
+
+pg_dumpall > pg_dumpall.dump
+
+# remove the two use flags
+
+emerge --pretend =dev-db/postgresql-database-8.4.2-r1
+
+emerge --config =dev-db/postgresql-server-8.4.2-r1
+
+/etc/init.d/postgresql-8.4 start
+
+psql -f pg_dumpall.dump postgres
+</pre>
+
+If your user doesn't have permission to access the postgres database, you may need to change the user. Example:
+
+<pre lang="bash">
+psql -U postgres -f pg_dumpall.dump postgres
+</pre>
+
+And you should be all set.

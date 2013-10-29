@@ -1,0 +1,4 @@
+name: Ramblings of Kristopher
+markdown: redcarpet
+pygments: true
+permalink: /:year/:month/:day/:title

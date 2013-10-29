@@ -1,0 +1,62 @@
+---
+layout: post
+title: Upgrading to PostgreSQL 8.3 on Gentoo
+categories:
+- Database
+- Linux
+tags:
+- Gentoo
+- PostgreSQL
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+  _jd_twitter: ''
+  _wp_jd_clig: ''
+  _wp_jd_bitly: ''
+  _wp_jd_wp: ''
+  _wp_jd_yourls: ''
+  _wp_jd_url: ''
+  _wp_jd_target: ''
+  _jd_wp_twitter: ''
+  _jd_post_meta_fixed: 'true'
+---
+Gentoo has taken a long time to unmask PostgreSQL 8.3 in Portage. Currently, the best version you can get is. 8.0.5, which, if you can tell, is pretty far away from 8.3. 
+
+This masking is largely due to the painful process of upgrading PostgreSQL (which usually involves dumping all your databases and restoring them afterwards). Here's what I did to get 8.3 up and running.
+
+First, make sure you backup all your databases:
+
+<pre class="prettyprint">pg_dumpall > postgres-backup.dump</pre>
+
+Run the following commands as root. This will add entries to your /etc/portage/package.keywords file:
+
+<pre class="prettyprint">echo "dev-db/postgresql-base ~amd64" >> /etc/portage/package.keywords
+echo "dev-db/postgresql-server ~amd64" >> /etc/portage/package.keywords
+echo "virtual/postgresql-server ~amd64" >> /etc/portage/package.keywords
+echo "virtual/postgresql-base ~amd64" >> /etc/portage/package.keywords</pre>
+
+Make sure to replace amd64 with your actual architecture. 
+
+Now, we're going to unemerge PostgreSQL so we can emerge the new version:
+
+<pre class="prettyprint">emerge --unmerge dev-db/postgresql dev-db/libpq</pre>
+
+Emerge the new version, configure it, start it, and add it to startup:
+
+<pre class="prettyprint">emerge virtual/postgresql-base virtual/postgresql-server
+emerge --config =dev-db/postgresql-server-8.3.5
+/etc/init.d/postgresql-8.3 start
+rc-update add postgresql-8.3 default</pre>
+
+Make sure to replace the version above with the one you actually installed. Now restore your databases:
+
+<pre class="prettyprint">psql -U postgres -f postgres-backup.dump template1</pre>
+
+And you should be all set. 
+
+Helpful Links:
+
+<a href="http://www.postgresql.org/docs/8.3/interactive/backup.html">PostgreSQL: Backup and Restore</a>

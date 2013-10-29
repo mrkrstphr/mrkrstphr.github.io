@@ -1,0 +1,71 @@
+---
+layout: post
+title: User Time Zones in PHP
+categories:
+- Programming
+tags:
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _jd_tweet_this: 'yes'
+  _jd_twitter: ''
+  _wp_jd_clig: ''
+  _wp_jd_bitly: ''
+  _wp_jd_wp: ''
+  _wp_jd_yourls: ''
+  _wp_jd_url: ''
+  _wp_jd_target: ''
+  _jd_wp_twitter: ''
+  _jd_post_meta_fixed: 'true'
+---
+When writing applications that are meant to be used by users the world over (not just users within a localized network), it's important to be able to show dates and times relative to the users time zone. If one user posts something at 11:30 EST, and a few minutes later, a user in California checks the post, it would look as if it were made in the future. Not cool. 
+
+Lucky, it's quite easy to localize dates and times using PHP's built in date classes.
+
+<!--more--><h3>Storing the Time Zone</h3>
+
+The first thing we'll need to do is setup a mechanism for the user to select their time zone. This should be stored in the database for each user. To generate a list of locales for the user to select, we can use the DateTimeZone class's static method listIdentifiers(): 
+
+<pre class="prettyprint language-html"><select id="timezone" name="timezone">
+    <?php foreach(DateTimeZone::listIdentifiers() as $timezone): ?>
+    <option value="<?php echo $timezone; ?>"><?php echo $timezone; ?></option>
+    <?php endforeach; ?>
+</select></pre>
+
+<h3>Storing Dates in GMT</h3>
+
+Now that we have the user's time zone preference, we can convert any date/time into their local time. In order to do this, however, we need to store all dates in our database in Greenwich Mean Time (GMT) as this provides a basis for us to convert all dates into user defined time zones. We could store the dates in our time zone, and calculate the offsets from our time zone, but it's much easier to calculate an offset from zero (which is GMT, +0000), and it provides much more portable code. 
+
+To format these dates, we will use the DateTime class and set its time zone to GMT. Note that we could also use the gmdate() function in PHP. To store the current date, it's easy: 
+
+<pre class="prettyprint language-php">$date = new DateTime(null, new DateTimeZone('GMT'));
+$date = $date->format('Y-m-d h:i:s P');</pre>
+
+But if we have a user specified date, we can convert it to GMT by changing the time zone after constructing the object:
+
+<pre class="prettyprint language-php">$userTimeZone = new DateTimeZone('America/Chihuahua');
+$date = new DateTime('2010-01-01 6:32 PM', $userTimeZone);
+$date->setTimezone(new DateTimeZone('GMT'));
+$date = $date->format('Y-m-d h:i:s P');</pre>
+
+<h3>Pulling Dates in the User's Local Time Zone</h3>
+
+Now when we pull a date from the database, it will be in GMT. Using our user's time zone, we can use the setTimeZone() method again, but this time setting the time zone to the local time zone: 
+
+<pre class="prettyprint language-php">$userTimeZone = new DateTimeZone('America/Chihuahua');
+$date = new DateTime('2010-01-01 6:32 PM', new DateTimeZone('GMT'));
+$date->setTimezone($userTimeZone);
+$date = $date->format('Y-m-d h:i:s P');</pre>
+
+This is exactly like our last snippet, only the time zones are switched. Now we have a date in the user's local time zone and each user will see the correct time an action occurred relative to their time zone. 
+
+Edit: It's also probably worth noting that the DateTimeZone class will automatically handle Daylight Saving Time and Summer Time (over in Europe) when converting between time zones.
+
+For more information, checkout the documentation on the PHP date classes: 
+
+- <a href="http://us3.php.net/manual/en/class.datetime.php">DateTime</a>
+- <a href="http://us3.php.net/manual/en/class.datetimezone.php">DateTimeZone</a>
+- <a href="http://us3.php.net/manual/en/class.dateinterval.php">DateInterval</a>

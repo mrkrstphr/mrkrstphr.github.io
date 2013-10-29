@@ -1,0 +1,86 @@
+---
+layout: post
+title: Inheritance in PostgreSQL
+categories:
+- Database
+tags:
+- PostgreSQL
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+Another cool feature I've recently discovered in PostgreSQL, although one available and documented for a long time, is table inheritance, which works almost exactly like object inheritance in object oriented programming. This simply means that you can have tables inheriting columns from parent tables. 
+
+<!--more-->Let's look at an example. Say we want to store attributes about various cars and trucks. Since cars and trucks have many attributes in common, and instead of duplicating these columns across both tables, we're going to create a third table, automobiles, that both cars and trucks inherit from. 
+
+<pre lang="sql">CREATE TABLE automobiles(
+    autombile_id serial primary key,
+    make varchar(40),
+    model varchar(40),
+    color varchar(20),
+    year int
+);
+
+CREATE TABLE cars(
+    doors int
+) INHERITS(automobiles);
+
+CREATE TABLE trucks(
+    bed_size varchar(20),
+    hitch_size varchar(20),
+    weight_capacity int
+) INHERITS(automobiles);</pre>
+
+The <code>INHERITS</code> keyword specifies which tables the new table inherits from. When more columns are added to the parent table after children are created, these columns are also automatically added to the child tables.
+
+Let's insert some data. When inserting into sub tables, we can also reference and populate parent columns:
+
+<pre lang="sql">
+INSERT INTO cars(make, model, color, year, doors) 
+    VALUES('Chevrolet', 'Equinox', 'Orange', 2009, 4);
+INSERT INTO trucks(make, model, color, year, bed_size, hitch_size, weight_capacity) 
+    VALUES('Toyota', 'Tundra', 'Black', 2009, '160 sq ft', '40 mm', 140);
+INSERT INTO automobiles(make, model, color, year) 
+    VALUES('Holda', 'Pilot', 'Green', 2009);
+</pre>
+
+When selecting data from sub tables, the parent columns are present as we'd expect:
+
+<pre lang="sql">
+SELECT * FROM cars;
+ autombile_id |   make    |  model  | color  | year
+--------------+-----------+---------+--------+------
+            1 | Chevrolet | Equinox | Orange | 2009
+(1 row)
+
+SELECT * FROM trucks;
+ autombile_id |  make  | model  | color | year | bed_size  | hitch_size | weight_capacity
+--------------+--------+--------+-------+------+-----------+------------+-----------------
+            2 | Toyota | Tundra | Black | 2009 | 160 sq ft | 40 mm      |             140
+(1 row)
+</pre>
+
+When selecting from the parent table, automobiles, all sub rows are displayed, as well as rows specifically added to the parent table, but only columns specific to the parent table are displayed:
+
+<pre lang="sql">
+select * from automobiles;
+ autombile_id |   make    |  model  | color  | year
+--------------+-----------+---------+--------+------
+            3 | Holda     | Pilot   | Green  | 2009
+            1 | Chevrolet | Equinox | Orange | 2009
+            2 | Toyota    | Tundra  | Black  | 2009
+(3 rows)
+</pre>
+
+This is pretty sweet, but their are some drawbacks:
+
+<ul>
+	<li>Table permissions are not inherited. If a user has permission on a child table, but not the parent, inserting will fail.</li>
+        <li>Indexes and constraints are not shared across tables. If there is a unique constraint on the column of the parent, the constraint is not enforced on the child table, meaning the child could have duplicate column values.</li>
+        <li>References are not shared across tables. This is an easy limitation to work around by simply adding the reference to both parent and child tables independently.</li>
+        <li>Working the other way, tables that reference a parent or child table cannot contain values from the other table in the relationship. In other words, if a third table references the parent table, it cannot contain values in it's reference column that are in the child table.</li>
+</ul>
+
+For more information check out the PostgreSQL manual page on <a href="http://www.postgresql.org/docs/8.4/static/ddl-inherit.html">Inheritance</a>.

@@ -1,0 +1,143 @@
+---
+layout: post
+title: Using Doctrine Paginator with Zend Framework 2 Paginator
+categories:
+- Programming
+tags:
+- doctrine
+- pagination
+- PHP
+- zend framework 2
+- zf2
+status: publish
+type: post
+published: true
+meta:
+  _jd_wp_twitter: a:1:{i:0;s:78:"Using Doctrine Paginator with Zend Framework 2 Paginator
+    - http://goo.gl/nPXux";}
+  _wp_jd_target: ''
+  _wp_jd_url: ''
+  _wp_jd_yourls: ''
+  _wp_jd_wp: ''
+  _wp_jd_bitly: ''
+  _wp_jd_clig: ''
+  _jd_twitter: ''
+  _jd_tweet_this: 'yes'
+  _jd_post_meta_fixed: 'true'
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  _wp_jd_goo: http://goo.gl/nPXux
+---
+So Doctrine has a Paginator that uses DQL and Zend Framework has a Paginator for paginating whatever the eff. So which do you use, what do you do? Answer: smash them together!
+
+I created a super simple Adapter for Zend\Paginator that uses the Doctrine\ORM\Tools\Pagination\Paginator class:
+
+<pre class="prettyprint language-php">
+namespace Application\Paginator;
+
+use Zend\Paginator\Adapter\AdapterInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
+/**
+ * @category   Zend
+ * @package    Paginator
+ */
+class DoctrinePaginatorAdapter implements AdapterInterface
+{
+    /**
+     * Paginator
+     *
+     * @var Paginator
+     */
+    protected $paginator = null;
+
+    /**
+     * Item count
+     *
+     * @var integer
+     */
+    protected $count = null;
+
+    /**
+     * Constructor.
+     *
+     * @param Paginator $paginator
+     */
+    public function __construct(Paginator $paginator)
+    {
+        $this->paginator = $paginator;
+        $this->count = count($paginator);
+    }
+
+    /**
+     * Returns an array of items for a page.
+     *
+     * @param  integer $offset Page offset
+     * @param  integer $itemCountPerPage Number of items per page
+     * @return array
+     */
+    public function getItems($offset, $itemCountPerPage)
+    {
+        return $this->paginator->getIterator();
+    }
+
+    /**
+     * Returns the total number of rows in the array.
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return $this->count;
+    }
+} 
+</pre>
+
+Now I have a method in my Repository that gives me a Doctrine\ORM\Tools\Pagination\Paginator: 
+
+<pre class="prettyprint language-php">
+/**
+ * @param int $offset
+ * @param int $limit
+ * @return Paginator
+ */
+public function getPaginator($offset = 0, $limit = 20)
+{
+    $dql = 'SELECT e FROM Application\\Domain\\Model\\Entity e ' .
+        'ORDER BY e.column ASC';
+
+    $query = $this->manager->createQuery($dql)
+        ->setMaxResults($limit)
+        ->setFirstResult($offset);
+
+    $paginator = new Paginator($query);
+
+    return $paginator;
+}
+</pre>
+
+Finally, in my controller, I call this method, pass it off to my DoctrinePaginatorAdapter, then hand that off to Zend\Paginator. Boom!
+
+<pre class="prettyprint language-php">
+/**
+ *
+ */
+public function indexAction()
+{
+    $page = $this->params('page');
+    $max = 20;
+
+    $results = $this->repository->getPaginator(($page - 1) * 20, $max);
+
+    $adapter = new DoctrinePaginatorAdapter($results);
+    $paginator = new Paginator($adapter);
+    $paginator->setCurrentPageNumber($page);
+    $paginator->setItemCountPerPage($max);
+
+    return array(
+        'paginator' => $paginator
+    );
+}
+</pre>
+
+And just like that, I have pagination marrying Zend Framework and Doctrine's pagination wizardry. So simple, even a caveman could do it!

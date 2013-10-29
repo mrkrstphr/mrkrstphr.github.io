@@ -1,0 +1,114 @@
+---
+layout: post
+title: Install Dropbox on Your Linux Server for Easy Backups
+categories:
+- Linux
+- Technology
+tags:
+- backups
+- Dropbox
+- MySQL
+- PostgreSQL
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+---
+...
+
+<h3>Installing Dropbox</h3>
+
+Download Dropbox for Linux, depending on your architecture:
+
+[code lang="bash"]wget -O dbox.tar.gz &quot;http://www.dropbox.com/download/?plat=lnx.x86&quot; 
+wget -O dbox.tar.gz &quot;http://www.dropbox.com/download/?plat=lnx.x86_64&quot;[/code]
+
+Once that's done, extract the archive:
+
+[code lang="bash"]tar -xf dbox.tar.gz[/code]
+
+Run the Dropbox client. This will complain that you're account isn't linked to the computer, and will give you a URL to hit in your browser to make the necessary connection:
+
+[code lang="bash"]~/.dropbox-dist/dropboxd
+This client is not linked to any account...
+Please visit https://www.dropbox.com/cli_link?host_id=b906b...&amp;cl=en_US to link this machine.
+This client is not linked to any account...
+Please visit https://www.dropbox.com/cli_link?host_id=b906b...&amp;cl=en_US to link this machine.
+Client successfully linked, Welcome Kristopher![/code]
+
+The computer is now successfully authorized for your Dropbox account. Go ahead and Ctrl + C to kill the process. The next script is to create an init.d script that will start the Dropbox process whenever the server starts. In <code>/etc/init.d/dropbox</code>, create a file called <code>dropbox</code> with the following contents (<a href="https://gist.github.com/592840" title="init.d source" target="_blank">graciously borrowed</a>): 
+
+[code title="/etc/init.d/dropbox" lang="bash"]
+DROPBOX_USERS=&quot;dropbox&quot; # Change to all users the dropbox client should run for
+start() {
+    echo &quot;Starting dropbox...&quot;
+    for dbuser in $DROPBOX_USERS; do
+        start-stop-daemon -b -o -c $dbuser -S -x /home/$dbuser/.dropbox-dist/dropboxd
+    done
+}
+
+stop() {
+    echo &quot;Stopping dropbox...&quot;
+    for dbuser in $DROPBOX_USERS; do
+        start-stop-daemon -o -c $dbuser -K -x /home/$dbuser/.dropbox-dist/dropboxd
+    done
+}
+
+status() {
+    for dbuser in $DROPBOX_USERS; do
+        dbpid=`pgrep -u $dbuser dropbox`
+        if [ -z $dbpid ] ; then
+            echo &quot;dropboxd for USER $dbuser: not running.&quot;
+        else
+            echo &quot;dropboxd for USER $dbuser: running.&quot;
+        fi
+    done
+}
+
+
+case &quot;$1&quot; in
+  start)
+    start
+    ;;
+
+  stop)
+    stop
+    ;;
+
+  restart|reload|force-reload)
+    stop
+    start
+    ;;
+
+  status)
+    status
+    ;;
+
+  *)
+    echo &quot;Usage: /etc/init.d/dropbox {start|stop|reload|force-reload|restart|status}&quot;
+    exit 1
+
+esac
+
+exit 0[/code]
+
+Make the file executable, then go ahead and start it: 
+
+[code lang="bash"]sudo chmod a+x /etc/init.d/dropbox
+sudo /etc/init.d/dropbox start[/code]
+
+For each user you setup in the init script, a daemon should now be running and syncing that user's files to their home directory in <code>/home/[user]/Dropbox</code>.
+
+Now let's set the init script to run on boot: 
+
+[code lang="bash"]sudo update-rc.d dropbox defaults[/code]
+
+<h3>Creating a Backup Script Cron</h3>
+
+Our backup script for this example is pretty simple. It does a dump of all PostgreSQL and MySQL databases on the server and drops them in the Dropbox folder to be synced. 
+
+Create the directory to drop the backup files into:
+
+[code lang="bash"]mkdir ~/Dropbox/backups[/code]
