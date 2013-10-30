@@ -1,5 +1,12 @@
-body {font: 14pt Georgia, 'Times New Roman', serif; padding: 30px}
+body, h1, h2, h3, h4 {font-family: Georgia, 'Times New Roman', serif}
+body {font-size: 14pt}
 .container {max-width: 720px}
-#disqus_thread {border-top: 2px solid rgba(0,49,79,.08); margin-top: 32px; padding-top: 16px}
 pre {background-color: inherit; margin-top: 10px}
 code {font-size: 10pt}
+p {margin-bottom: 16px}
+header.page {text-align: center}
+header h1 {margin: 32px}
+section.posts ul {list-style-type: none}
+.date-meta {color: #999}
+#disqus_thread {border-top: 2px solid rgba(0,49,79,.08); margin-top: 32px; padding-top: 16px}
+footer div.container {border-top: 2px solid rgba(0,49,79,.08); font-size: 0.85em; line-height: 1.5em; margin: 16px auto; padding: 8px; text-align: center}
