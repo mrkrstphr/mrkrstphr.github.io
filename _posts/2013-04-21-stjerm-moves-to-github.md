@@ -1,6 +1,7 @@
 ---
 layout: post
 title: stjerm Moves to GitHub
+excerpt: stjerm has found a new home on GitHub. Activity on Google Code will cease.
 categories:
 - Programming
 tags:

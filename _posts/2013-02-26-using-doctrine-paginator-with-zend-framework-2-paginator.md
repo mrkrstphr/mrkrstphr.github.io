@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Using Doctrine Paginator with Zend Framework 2 Paginator
+excerpt: Doctrine and ZF2 both have a Paginator for pagination of things. Wrapping Doctrine's with a ZF adapter makes
+    them play together quite nicely.
 categories:
 - Programming
 tags:
@@ -12,27 +14,14 @@ tags:
 status: publish
 type: post
 published: true
-meta:
-  _jd_wp_twitter: a:1:{i:0;s:78:"Using Doctrine Paginator with Zend Framework 2 Paginator
-    - http://goo.gl/nPXux";}
-  _wp_jd_target: ''
-  _wp_jd_url: ''
-  _wp_jd_yourls: ''
-  _wp_jd_wp: ''
-  _wp_jd_bitly: ''
-  _wp_jd_clig: ''
-  _jd_twitter: ''
-  _jd_tweet_this: 'yes'
-  _jd_post_meta_fixed: 'true'
-  _edit_last: '2'
-  _syntaxhighlighter_encoded: '1'
-  _wp_jd_goo: http://goo.gl/nPXux
 ---
-So Doctrine has a Paginator that uses DQL and Zend Framework has a Paginator for paginating whatever the eff. So which do you use, what do you do? Answer: smash them together!
+So Doctrine has a Paginator that uses DQL and Zend Framework has a Paginator for paginating whatever the eff. So
+which do you use, what do you do? Answer: smash them together!
 
-I created a super simple Adapter for Zend\Paginator that uses the Doctrine\ORM\Tools\Pagination\Paginator class:
+I created a super simple Adapter for `Zend\Paginator` that uses the `Doctrine\ORM\Tools\Pagination\Paginator` class:
 
-<pre class="prettyprint language-php">
+{% highlight php %}<?php
+
 namespace Application\Paginator;
 
 use Zend\Paginator\Adapter\AdapterInterface;
@@ -91,11 +80,11 @@ class DoctrinePaginatorAdapter implements AdapterInterface
         return $this->count;
     }
 } 
-</pre>
+{% endhighlight %}
 
-Now I have a method in my Repository that gives me a Doctrine\ORM\Tools\Pagination\Paginator: 
+Now I have a method in my Repository that gives me a `Doctrine\ORM\Tools\Pagination\Paginator`:
 
-<pre class="prettyprint language-php">
+{% highlight php startinline %}
 /**
  * @param int $offset
  * @param int $limit
@@ -114,11 +103,12 @@ public function getPaginator($offset = 0, $limit = 20)
 
     return $paginator;
 }
-</pre>
+{% endhighlight %}
 
-Finally, in my controller, I call this method, pass it off to my DoctrinePaginatorAdapter, then hand that off to Zend\Paginator. Boom!
+Finally, in my controller, I call this method, pass it off to my `DoctrinePaginatorAdapter`, then hand that off
+to `Zend\Paginator`. Boom!
 
-<pre class="prettyprint language-php">
+{% highlight php startinline %}
 /**
  *
  */
@@ -138,6 +128,7 @@ public function indexAction()
         'paginator' => $paginator
     );
 }
-</pre>
+{% endhighlight %}
 
-And just like that, I have pagination marrying Zend Framework and Doctrine's pagination wizardry. So simple, even a caveman could do it!
+And just like that, I have pagination marrying Zend Framework and Doctrine's pagination wizardry. So simple,
+even a caveman could do it!<sup>TM</sup>
