@@ -4,3 +4,5 @@ lsi: false
 markdown: redcarpet
 pygments: true
 permalink: /:year/:month/:day/:title
+paginate: 20
+url: http://mrkrstphr.github.io
