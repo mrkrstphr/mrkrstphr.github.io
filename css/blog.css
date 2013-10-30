@@ -6,8 +6,11 @@ code {font-size: 10pt}
 p {margin-bottom: 16px}
 header.page {text-align: center}
 header h1 {margin: 32px}
-section.posts ul {list-style-type: none}
+section.posts ul {list-style-type: none; margin: 0; padding: 0}
 .date-meta {color: #999}
 #disqus_thread {border-top: 2px solid rgba(0,49,79,.08); margin-top: 32px; padding-top: 16px}
 footer div.container {border-top: 2px solid rgba(0,49,79,.08); font-size: 0.85em; line-height: 1.5em; margin: 16px auto; padding: 8px; text-align: center}
 blockquote {color: #888}
+div.pagination {clear: both; width: 100%}
+div.pagination a.older {float: left}
+div.pagination a.newer {float: right}
