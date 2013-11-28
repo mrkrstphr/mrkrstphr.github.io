@@ -123,7 +123,7 @@ Imagine that; this repository interface doesn't know we're using Doctrine either
 we'll have to have a real repository:
 
 {% highlight php startinline %}
-class CustomerRepository
+class CustomerRepository implements CustomerRepositoryInterface
 {
     protected $entityType = 'Customer';
     protected $entityManager;
