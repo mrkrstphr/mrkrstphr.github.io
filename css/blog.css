@@ -5,7 +5,8 @@ pre {background-color: inherit; margin-top: 10px}
 code {font-size: 10pt}
 p {margin-bottom: 16px}
 header.page {text-align: center}
-header h1 {margin: 32px}
+header h1 {margin-top: 32px; margin-bottom: 16px}
+header div.icons {margin-bottom: 32px}
 section.posts ul {list-style-type: none; margin: 0; padding: 0}
 .date-meta {color: #999}
 #disqus_thread {border-top: 2px solid rgba(0,49,79,.08); margin-top: 32px; padding-top: 16px}
