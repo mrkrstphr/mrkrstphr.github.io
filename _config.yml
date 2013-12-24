@@ -1,9 +1,10 @@
 name: mrkrstphr's blog
+description: The ramblings of a Softare Developer
 safe: true
 lsi: false
 markdown: redcarpet
 pygments: true
 permalink: /:year/:month/:day/:title
-paginate: 8
+paginate: 10
 paginate_path: "page/:num"
 url: http://kristopherwilson.com

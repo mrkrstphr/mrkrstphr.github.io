@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://kristopherwilson.com/feed.rss" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/blog.css">
     <link rel="stylesheet" href="/css/syntax.css">
@@ -12,6 +13,11 @@
     <div class="container">
         <header class="page">
             <h1 class="title">{{ site.name }}</h1>
+            <div class="icons">
+                <a href="https://twitter.com/mrkrstphr"><img src="/images/twitter-32.png" alt="twitter"></a>
+                <a href="https://github.com/mrkrstphr"><img src="/images/github-32.png" alt="github"></a>
+                <a href="/feed.rss"><img src="/images/rss-32.png" alt="rss feed"></a>
+            </div>
         </header>
         {{ content }}
     </div>
