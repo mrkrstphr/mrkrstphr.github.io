@@ -73,7 +73,7 @@ class Customer
 }
 {% endhighlight %}
 
-This `Customer` object has absolutely no idea how the hell it gets its data, and it likes it that way. And when you
+This `Customer` object has absolutely no idea how it gets its data, and it likes it that way. And when you
 decide your ditching your ORM for something else, you'll like it too.
 
 ### ORMs
@@ -86,7 +86,7 @@ This means your services, controllers, etc should have no idea you're using doct
 an interface that they require, and whatever you give them, as long as it conforms to that interface, should be
 peaches and gravy.
 
-### So how the hell do you use something like Doctrine?
+### So how do you use something like Doctrine?
 
 Doctrine comes with a spiffy `EntityManager` that works as a **unit of work**. This is something your code should
 know nothing about.
@@ -109,8 +109,9 @@ class CustomerController extends AbstractActionController
 }
 {% endhighlight %}
 
-Look at that; seriously, look at that code! It doesn't know you're using Doctrine. It doesn't give a shit what you're
-using, as long as you give it something that conforms to `CustomerRepositoryInterface`. So what does *that* look like?
+Look at that; seriously, look at that code! It doesn't know you're using Doctrine. It straight up doesn't care what
+you're using, as long as you give it something that conforms to `CustomerRepositoryInterface`. So what does *that*
+look like?
 
 {% highlight php startinline %}
 interface CustomerRepositoryInterface
@@ -149,11 +150,11 @@ So now that we have this implementation and we want to switch to using an API, w
 repository that uses an API implementation and inject that instead. We don't have to touch the controller or any other
 services that use this repository.
 
-It's fucking magic. And it leads to having to rewrite a lot less code.
+It's magic! And it leads to having to rewrite a lot less code.
 
 ### But those interfaces, that's a lot of code?
 
-No it's not; quit bitching. They're like 40 lines, tops, with no method bodies. How hard is that? Compare it to the
+No it's not; quit whining. They're like 40 lines, tops, with no method bodies. How hard is that? Compare it to the
 flexibility it gives you and the low amount of code you'd have to refactor making a major change, and it'd take an
 idiot not to understand why this is important.
 
@@ -165,4 +166,4 @@ your framework.
 
 It's like getting in a relationship just because it seems like it might be fun for awhile. You know you probably won't
 be there long and something awesome might come along in the future; so why would you move all your stuff in and open
-some joint banking accounts? That's welcoming a world of hell later. Don't be that guy.
+some joint banking accounts? That's welcoming a world of pain later. Don't be that guy.
