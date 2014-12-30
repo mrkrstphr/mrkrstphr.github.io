@@ -67,20 +67,16 @@ plan.remote('deploy',function (remote) {
   remote.log('Checking for stale releases');
   var releases = getReleases(remote);
 
-  if (releases.code === 0) {
-    releases = releases.stdout.trim().split('\n');
+  if (releases.length > config.keepReleases) {
+    var removeCount = releases.length - config.keepReleases;
+    remote.log('Removing ' + removeCount + ' stale release(s)');
 
-    if (releases.length > config.keepReleases) {
-      var removeCount = releases.length - config.keepReleases;
-      remote.log('Removing ' + removeCount + ' stale release(s)');
+    releases = releases.slice(0, removeCount);
+    releases = releases.map(function (item) {
+      return config.projectDir + '/releases/' + item;
+      });
 
-      releases = releases.slice(0, removeCount);
-      releases = releases.map(function (item) {
-        return config.projectDir + '/releases/' + item;
-        });
-
-      remote.exec('rm -rf ' + releases.join(' '));
-    }
+    remote.exec('rm -rf ' + releases.join(' '));
   }
 });
 
@@ -135,4 +131,72 @@ And we can run this with:
 
     ./node_modules/.bin/flight rollback:staging
 
-Super simple. Enjoy!
+## Deploying from SCM
+
+If you need to deploy from SCM, rather than deploying a local folder, you can do that too. You can do it remotely, as Capistrano does, or
+you can do a fresh clone locally, build the source, and then deploy the compiled code to the server.
+
+Something like:
+
+{% highlight javascript %}
+
+var config = {
+  // ...
+  source: 'git@github.com:supercoolbro/awesomeapp.git';
+};
+
+plan.local('deploy-scm', function (local) {
+  var source = config.source;
+
+  config.tmp = 'tmp/' + (new Date().getTime());
+
+  local.log('Checking out source code with branch [master]...');
+  local.exec('mkdir -p ' + config.tmp);
+  local.exec('git clone --depth=1 ' + source + ' ' + config.tmp, {silent: true});
+
+  local.log('Installing dependencies...');
+  local.exec('cd ' + config.tmp + ' && npm i', {silent: true});
+  local.log('Building project...');
+  local.exec('cd ' + config.tmp + ' && npm run build', {silent: true});
+});
+
+plan.remote('deploy-scm', function (remote) {
+  config.tmp = 'tmp/1419956963582';
+  config.deployTo = config.projectDir + '/releases/' + (new Date().getTime());
+  remote.log('Creating webroot');
+  remote.exec('mkdir -p ' + config.deployTo);
+});
+
+plan.local('deploy-production', function (local) {
+  local.log('Transferring source code');
+  local.transfer(config.tmp + '/dist/', config.deployTo + '/');
+});
+
+plan.remote('deploy-scm',function (remote) {
+  remote.log('Linking to new release');
+  remote.exec('ln -nfs ' + config.deployTo + ' ' + config.projectDir + '/current');
+
+  remote.log('Checking for stale releases');
+  var releases = getReleases(remote);
+
+  remote.log('Found ' + releases.length + ' releases');
+
+  if (releases.length > config.keepReleases) {
+    remote.log('Removing ' + (releases.length - config.keepReleases) + ' stale release(s)');
+
+    releases = releases.slice(0, releases.length - config.keepReleases);
+    releases = releases.map(function (item) {return config.projectDir + '/releases/' + item;});
+
+    remote.exec('rm -rf ' + releases.join(' '));
+  }
+});
+{% endhighlight %}
+
+Now your remote server is clean, simple, and serving up static assets without any Node dependencies.
+
+## Deploying full Apps
+
+Need to deploy a full stack app? You can do that too! Simply follow the route of Capistrano and modify the recipe above to do the
+checkout remotely instead of locally.
+
+Flightplan is pretty sweet. Check it out.
