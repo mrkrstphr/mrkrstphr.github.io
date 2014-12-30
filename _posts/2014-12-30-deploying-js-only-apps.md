@@ -21,7 +21,7 @@ the application and point the webserver at a `dist/` folder. What I simply wante
 
 This makes my only dependency on that server Nginx, which serves up nice, hot, cached HTML, CSS and JavaScript.
 
-This left out Capistrano, whose strong suite (and maybe only suite) involved deploying from SCM. I then found 
+This left out Capistrano, whose strong suit (and maybe only suit) involved deploying from SCM. I then found
 [Flightplan](https://github.com/pstadler/flightplan), which provides a mechanism for running system commands locally
 or remotely. It seemed perfect.
 
@@ -191,6 +191,10 @@ plan.remote('deploy-scm',function (remote) {
   }
 });
 {% endhighlight %}
+
+We can run this with
+
+    ./node_modules/.bin/flight deploy-scm:staging
 
 Now your remote server is clean, simple, and serving up static assets without any Node dependencies.
 
