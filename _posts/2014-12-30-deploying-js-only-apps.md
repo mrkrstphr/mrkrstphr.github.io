@@ -95,7 +95,7 @@ function getReleases(remote) {
 
 Flightplan will run these groups of commands in order when we run:
 
-    ./node_modules/.bin/flight deploy:staging
+    ./node_modules/.bin/fly deploy:staging
 
 This is following, for the most part, how Capistrano runs deployments. We're creating a new directory in
 `releases/` with a name of the current timestamp. We transfer all of our files in `dist/` over into this directory, and
@@ -129,7 +129,7 @@ plan.remote('rollback', function(remote) {
 
 And we can run this with:
 
-    ./node_modules/.bin/flight rollback:staging
+    ./node_modules/.bin/fly rollback:staging
 
 ## Deploying from SCM
 
@@ -194,7 +194,7 @@ plan.remote('deploy-scm',function (remote) {
 
 We can run this with
 
-    ./node_modules/.bin/flight deploy-scm:staging
+    ./node_modules/.bin/fly deploy-scm:staging
 
 Now your remote server is clean, simple, and serving up static assets without any Node dependencies.
 
