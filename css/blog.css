@@ -1,5 +1,5 @@
 body, h1, h2, h3, h4 {font-family: Georgia, 'Times New Roman', serif}
-body {font-size: 14pt}
+body {border-top: 6px solid #222; font-size: 14pt}
 .container {max-width: 720px}
 pre {background-color: inherit; margin-top: 10px}
 code {font-size: 10pt}
