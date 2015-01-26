@@ -3,7 +3,7 @@ description: The ramblings of a Softare Developer
 safe: true
 lsi: false
 markdown: redcarpet
-pygments: true
+highlighter: pygments
 permalink: /:year/:month/:day/:title
 paginate: 10
 paginate_path: "page/:num"
