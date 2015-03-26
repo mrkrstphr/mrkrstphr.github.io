@@ -175,5 +175,5 @@ we expect. Even further, with the upcoming PHP 7, we can also use type hints (ob
 and return types to further ensure that concrete implementations adhere to the contracts.
 
 Checkout my article on
-[Implementing the Onion Architecture in PHP](http://localhost:4000/2013/07/04/implementing-the-onion-architecture-in-php/)
+[Implementing the Onion Architecture in PHP](/2013/07/04/implementing-the-onion-architecture-in-php/)
 for more examples of how to use interfaces to achieve cleanly architected, decoupled code.
