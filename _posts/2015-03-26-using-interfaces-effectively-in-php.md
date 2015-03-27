@@ -52,7 +52,7 @@ the [handy naming guidelines](https://github.com/php-fig/fig-standards/blob/mast
 used internally by the [PHP Framework Interop Group (PHP-FIG)](http://www.php-fig.org/). You
 can name them however your heart desires.
 
-### Extending Interfaces
+### Implementing Interfaces
 
 When a normal class implements an interface, it **must** implement all methods defined in that
 interface. In this sense, it's sometimes described as a contract as, in order to use the interface,
