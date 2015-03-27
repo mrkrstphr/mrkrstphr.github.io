@@ -12,29 +12,32 @@ status: publish
 type: post
 published: true
 ---
+
 Yesterday, while trying to figure out the best way to deal with PostgreSQL arrays in PHP, I came across the new
 `str_getcsv()` function in PHP as of 5.3. This function works much the same as `fgetcsv` to parse a CSV line, except
 that it works on a string instead of a file.
 
-For quick reference, CSV looks like this: 
+For quick reference, CSV looks like this:
 
-{% highlight text %}
+```text
 "My Name",14,"32,000","2009-04-15"
-{% endhighlight %}
+```
 
-And the return value of a PostgreSQL array looks like this: 
+And the return value of a PostgreSQL array looks like this:
 
-{% highlight text %}
+```text
 {"My Name",14,"32,000","2009-04-15"}
-{% endhighlight %}
+```
 
-Notice the similarities? 
+Notice the similarities?
 
 We can use PHP's `trim` and `str_getcsv` to turn this PostgreSQL array into a PHP array:
 
-{% highlight php startinline %}
+```php
+<?php
+
 $data = str_getcsv(trim($record->value, '{}'));
-{% endhighlight %}
+```
 
 Simple as simple does. As long as your array has only a single dimension. If you're using multidimensional arrays in
 PostgreSQL then you're dead to me.

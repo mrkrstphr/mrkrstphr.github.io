@@ -12,6 +12,7 @@ status: publish
 type: post
 published: true
 ---
+
 I completely loathe `Zend_Form` and it's silly validation system, but I'll save that for another time and just
 concentrate on a specific example: You can only have one validation callback per form element.
 
@@ -34,44 +35,42 @@ are private, with no method to change them.
 
 ### Hackish solution: create our own validator.
 
-{% highlight php %}
+```php
 <?php
+
 require_once 'Zend/Validate/Abstract.php';
 require_once 'Zend/Validate/Callback.php';
 
-class My_Validate_Callback extends Zend_Validate_Callback
-{
-    public function setMessage($message, $value)
-    {
-        if(isset($this->_messageTemplates[$message]))
-            $this->_messageTemplates[$message] = $value;
+class My_Validate_Callback extends Zend_Validate_Callback {
+  public function setMessage($message, $value) {
+    if(isset($this->_messageTemplates[$message]))
+      $this->_messageTemplates[$message] = $value;
+  }
+
+  public function isValid($value) {
+    $this->_setValue($value);
+
+    $options  = $this->getOptions();
+    $callback = $this->getCallback();
+    $args     = func_get_args();
+    $options  = array_merge($args, $options);
+
+    $options[] = &$this;
+
+    try {
+      if (!call_user_func_array($callback, $options)) {
+        $this->_error(self::INVALID_VALUE);
+        return false;
+      }
+    } catch (Exception $e) {
+      $this->_error(self::INVALID_CALLBACK);
+      return false;
     }
-   
-    public function isValid($value)
-    {
-        $this->_setValue($value);
-       
-        $options  = $this->getOptions();
-        $callback = $this->getCallback();
-        $args     = func_get_args();
-        $options  = array_merge($args, $options);
-       
-        $options[] = &$this;
-       
-        try {
-            if (!call_user_func_array($callback, $options)) {
-                $this->_error(self::INVALID_VALUE);
-                return false;
-            }
-        } catch (Exception $e) {
-            $this->_error(self::INVALID_CALLBACK);
-            return false;
-        }
-       
-        return true;
-    }
+
+    return true;
+  }
 }
-{% endhighlight %}
+```
 
 All we're doing here is extending `Zend_Validate_Callback` and (1) adding a method to override the message templates
 and (2) passing a reference to this object to the callback method.

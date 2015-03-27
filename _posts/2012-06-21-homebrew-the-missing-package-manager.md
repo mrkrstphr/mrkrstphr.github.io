@@ -38,28 +38,28 @@ It does depend on having Xcode installed. If you're on OS X Lion, it's available
 
 The first thing you should do is run:
 
-{% highlight console %}
+```bash
 brew doctor
-{% endhighlight %}
+```
 
 Follow all the advice given here and fix all the issues. Trust me. Two days of headaches and agony may follow if you
 don't. Then, to install a package, such as PostgreSQL:
 
-{% highlight console %}
+```bash
 brew install postgresql
-{% endhighlight %}
+```
 
 Boom. Done. Follow the notes given on the screen (if you miss them, type <code>brew info postgresql</code> to recall them) and you're good to go. Want to see if any packages have updates?
 
-{% highlight console %}
+```bash
 brew update
-{% endhighlight %}
+```
 
 To update any package listed in the available updates:
 
-{% highlight console %}
+```bash
 brew upgrade [package-name]
-{% endhighlight %}
+```
 
 It's that simple. And I like simple.
 

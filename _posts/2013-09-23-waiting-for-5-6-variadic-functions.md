@@ -23,21 +23,25 @@ Variadic functions are ones that accept a variable, or infinite, amount of argum
 functions in PHP that support this (as C does), such as `sprintf` where you can pass it any number of
 arguments.
 
-{% highlight php startinline %}
+```php
+<?php
+
 sprintf($format, $arg1, $arg2, $arg3);
-{% endhighlight %}
+```
 
 Currently, if you wanted to support this in a user-land PHP function or method, you'd have to use the `func_get_args()`
 family of functions to determine what was passed beyond the definition. Now, with this accepted RFC, you can define a
 function like follows (stolen straight from the RFC):
 
-{% highlight php startinline %}
+```php
+<?php
+
 public function query($query, ...$params) {
     $stmt = $this->pdo->prepare($query);
     $stmt->execute($params);
     return $stmt;
 }
-{% endhighlight %}
+```
 
 `$params` will be an array of every additional argument passed to that method.
 

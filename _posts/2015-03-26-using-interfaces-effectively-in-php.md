@@ -30,7 +30,9 @@ things you can do in an interface:
 
 This ends up looking something like:
 
-{% highlight php startinline %}
+```php
+<?php
+
 interface QueryInterface {
   public function whereId($id);
 }
@@ -38,7 +40,7 @@ interface QueryInterface {
 interface CustomerQueryInterface extends QueryInterface {
   public function whereType($type);
 }
-{% endhighlight %}
+```
 
 Following the normal rules of inheritance, the `CustomerQueryInterface` defines two methods:
 
@@ -63,7 +65,9 @@ at least implement all of those methods.
 
 So what if we wanted to use the `CustomerQueryInterface`?
 
-{% highlight php startinline %}
+```php
+<?php
+
 class CustomerQuery implements CustomerQueryInterface {
   public function whereId($id) {
     // do something to get Customer by $id
@@ -73,7 +77,7 @@ class CustomerQuery implements CustomerQueryInterface {
     // do something to get Customer by $type
   }
 }
-{% endhighlight %}
+```
 
 We use an interface by using the `implements` keyword. It's very similar to extending other classes,
 but only works for interfaces. The `implements` keyword also allows us to implement multiple
@@ -98,7 +102,9 @@ them.
 
 So if you previously had a class that looked like this:
 
-{% highlight php startinline %}
+```php
+<?php
+
 class CustomersController {
   private $customerQuery;
 
@@ -106,11 +112,13 @@ class CustomersController {
     $this->customerQuery = new CustomerQuery();
   }
 }
-{% endhighlight %}
+```
 
 With dependency injection, this class would be refactored to look like:
 
-{% highlight php startinline %}
+```php
+<?php
+
 class CustomersController {
   private $customerQuery;
 
@@ -118,7 +126,7 @@ class CustomersController {
     $this->customerQuery = $customerQuery;
   }
 }
-{% endhighlight %}
+```
 
 Now, instead of instantiating our dependency, `CustomerQuery`, we're given, or injected with, this
 dependency. Obviously this begs the question "how does `CustomerQuery` get instantiated and passed
@@ -147,7 +155,9 @@ In our previous example of dependency injection, we used a type hint in the cons
 We can take this refactoring one step farther and, instead of type hinting the concrete
 implementation, we can instead type hint to the `CustomterQueryInterface`:
 
-{% highlight php startinline %}
+```php
+<?php
+
 class CustomersController {
   private $customerQuery;
 
@@ -155,7 +165,7 @@ class CustomersController {
     $this->customerQuery = $customerQuery;
   }
 }
-{% endhighlight %}
+```
 
 This where the concept of adhering to a contract really comes into play: our `CustomersController`
 declares that it requires an instance of `CustomerQueryInterface`. It doesn't care what concrete

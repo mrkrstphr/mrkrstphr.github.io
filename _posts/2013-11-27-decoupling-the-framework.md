@@ -57,9 +57,10 @@ mapper pattern).
 Models should be fat on business logic only; not fat on technical implementation logic. A good model looks something
 like this:
 
-{% highlight php startinline %}
-class Customer
-{
+```php
+<?php
+
+class Customer {
     protected $name;
 
     public function getName() {
@@ -71,7 +72,7 @@ class Customer
         return $this;
     }
 }
-{% endhighlight %}
+```
 
 This `Customer` object has absolutely no idea how it gets its data, and it likes it that way. And when you
 decide your ditching your ORM for something else, you'll like it too.
@@ -93,9 +94,10 @@ know nothing about.
 
 Do you have a controller that needs some sort of customer repository? Great! That's what it should ask for:
 
-{% highlight php startinline %}
-class CustomerController extends AbstractActionController
-{
+```php
+<?php
+
+class CustomerController extends AbstractActionController {
     protected $customerRepository;
 
     public function __construct(CustomerRepositoryInterface $customerRepo) {
@@ -107,23 +109,26 @@ class CustomerController extends AbstractActionController
         $customer = $this->customerRepository->getById($id);
     }
 }
-{% endhighlight %}
+```
 
 Look at that; seriously, look at that code! It doesn't know you're using Doctrine. It straight up doesn't care what
 you're using, as long as you give it something that conforms to `CustomerRepositoryInterface`. So what does *that*
 look like?
 
-{% highlight php startinline %}
-interface CustomerRepositoryInterface
-{
+```php
+<?php
+
+interface CustomerRepositoryInterface {
     public function getById($id);
 }
-{% endhighlight %}
+```
 
 Imagine that; this repository interface doesn't know we're using Doctrine either? So what does? Well, eventually
 we'll have to have a real repository:
 
-{% highlight php startinline %}
+```php
+<?php
+
 class CustomerRepository implements CustomerRepositoryInterface
 {
     protected $entityType = 'Customer';
@@ -139,7 +144,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $this->entityManager->find($this->entityType, $id);
     }
 }
-{% endhighlight %}
+```
 
 *THIS* class knows about Doctrine, and only this class. So how do you get that in the controller? Some method of
 **Inversion of Control**, I would suspect. Dependency injection, maybe a service locator to build that dependency.

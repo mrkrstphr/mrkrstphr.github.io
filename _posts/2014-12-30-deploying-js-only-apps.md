@@ -13,7 +13,7 @@ published: true
 ---
 We have an application that is purely JavaScript (AngularJS), HTML and CSS that I was trying to figure out how to easily
 deploy. This application has cleanly separated JavaScript modules and uses SASS, so we have a nice little build system
-using Gulp that compiles, combines, and exports all the code from a `src/` to a `dist/` folder. 
+using Gulp that compiles, combines, and exports all the code from a `src/` to a `dist/` folder.
 
 What I didn't want to do is deploy the entire codebase to a server and, using all the Node dependencies there, build
 the application and point the webserver at a `dist/` folder. What I simply wanted to do was take a copy of the built
@@ -29,7 +29,7 @@ or remotely. It seemed perfect.
 
 In `flightplan.js` in the root of the project, I built out the following deployment script:
 
-{% highlight javascript %}
+```javascript
 var plan = require('flightplan');
 
 var config = {
@@ -61,7 +61,7 @@ plan.local('deploy', function (local) {
 
 plan.remote('deploy',function (remote) {
   remote.log('Linking to new release');
-  remote.exec('ln -nfs ' + config.deployTo + ' ' + 
+  remote.exec('ln -nfs ' + config.deployTo + ' ' +
     config.projectDir + '/current');
 
   remote.log('Checking for stale releases');
@@ -81,7 +81,7 @@ plan.remote('deploy',function (remote) {
 });
 
 function getReleases(remote) {
-  var releases = remote.exec('ls ' + config.projectDir + 
+  var releases = remote.exec('ls ' + config.projectDir +
     '/releases', {silent: true});
 
   if (releases.code === 0) {
@@ -91,7 +91,7 @@ function getReleases(remote) {
 
   return [];
 }
-{% endhighlight %}
+```
 
 Flightplan will run these groups of commands in order when we run:
 
@@ -101,7 +101,7 @@ This is following, for the most part, how Capistrano runs deployments. We're cre
 `releases/` with a name of the current timestamp. We transfer all of our files in `dist/` over into this directory, and
 then symlink `current` to point to `releases/[timestamp]`. `current` is where Nginx should point to deliver the site.
 
-Finally, we check how many releases are in `releases/` and delete any more than the 5 most recent. 
+Finally, we check how many releases are in `releases/` and delete any more than the 5 most recent.
 
 It's pretty simple, just running a bunch of commands on the server, and it's fast.
 
@@ -109,7 +109,7 @@ It's pretty simple, just running a bunch of commands on the server, and it's fas
 
 If we need a rollback task, that's easy too:
 
-{% highlight javascript %}
+```javascript
 plan.remote('rollback', function(remote) {
   remote.log('Rolling back release');
   var releases = getReleases(remote);
@@ -125,7 +125,7 @@ plan.remote('rollback', function(remote) {
   }
 
 });
-{% endhighlight %}
+```
 
 And we can run this with:
 
@@ -138,8 +138,7 @@ you can do a fresh clone locally, build the source, and then deploy the compiled
 
 Something like:
 
-{% highlight javascript %}
-
+```javascript
 var config = {
   // ...
   source: 'git@github.com:supercoolbro/awesomeapp.git';
@@ -190,7 +189,7 @@ plan.remote('deploy-scm',function (remote) {
     remote.exec('rm -rf ' + releases.join(' '));
   }
 });
-{% endhighlight %}
+```
 
 We can run this with
 

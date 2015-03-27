@@ -15,6 +15,7 @@ status: publish
 type: post
 published: true
 ---
+
 Recently, I was turned on to a new design architecture by
 [a fellow programmer](https://twitter.com/scaturr), which I've quickly grown to love and adopt. It's called the
 **Onion Architecture** and its main principal is this: organize the layers of your application code like the layers
@@ -34,7 +35,7 @@ swap out which ORM solution you are using and not have to touch your domain, ser
 Likewise, you could swap out your application framework (think Zend Framework, Symfony or CakePHP) and only rewrite
 that layer. The possibilities are pretty amazing.
 
-There are several principals to adhere to that make this approach possible. 
+There are several principals to adhere to that make this approach possible.
 
 ### Build a Pure PHP Domain Model
 
@@ -46,114 +47,71 @@ your robustly defined PHP business logic intact.
 This is the bread and butter of your application; the heart and soul of what it does. Does it manage customer orders?
 Then you should probably have a few classes named just that, which can intelligently interact with one another:
 
-{% highlight php %}<?php
+```php
+<?php
 
-/**
- * Class Customer
- */
-class Customer extends AbstractEntity
-{
-    /**
-     * @var string
-     */
-    protected $name;
-    
-    /**
-     * @var array
-     */
-    protected $orders;
+class Customer extends AbstractEntity {
+  protected $name;
+  protected $orders;
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+  public function setName($name) {
+    $this->name = $name;
+  }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+  public function getName() {
+    return $this->name;
+  }
 
-    /**
-     * @param array $orders
-     */
-    public function setOrders(array $orders)
-    {
-        $this->orders = $orders;
-    }
+  public function setOrders(array $orders) {
+    $this->orders = $orders;
+  }
 
-    /**
-     * @param Order $order
-     */
-    public function addOrder(Order $order)
-    {
-        $this->orders[] = $order;
-    }
-    
-    /**
-     * @return array
-     */
-    public function getOrders()
-    {
-        return $this->orders;
-    }
+  public function addOrder(Order $order) {
+    $this->orders[] = $order;
+  }
+
+  public function getOrders() {
+    return $this->orders;
+  }
 }
-{% endhighlight %}
+```
 
-{% highlight php %}<?php
+```php
+<?php
 
-/**
- * Class Order
- */
-class Order extends AbstractEntity
-{
-    /**
-     * @var Customer
-     */
-    protected $customer;
+class Order extends AbstractEntity {
+  protected $customer;
 
-    /**
-     * @param \Customer $customer
-     */
-    public function setCustomer($customer)
-    {
-        $this->customer = $customer;
-    }
+  public function setCustomer($customer) {
+    $this->customer = $customer;
+  }
 
-    /**
-     * @return \Customer
-     */
-    public function getCustomer()
-    {
-        return $this->customer;
-    }
+  public function getCustomer() {
+    return $this->customer;
+  }
 }
-{% endhighlight %}
+```
 
 This pure implementation allows use to work with our business logic using straight PHP objects and completely
 decouples it from anything, but, well, PHP. And if you switch that out, then it sounds like you were planning on
 rewriting everything anyway.
 
-{% highlight php %}<?php
+```php
+<?php
 
 $customer = new Customer();
 $customer->setName('ACME Corp');
 $customer->addOrder(new Order());
-{% endhighlight %}
+```
 
 Also, if you're not already, you should really think about following the principles of
 [Domain-Driven Design](http://www.amazon.com/gp/product/0321125215/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321125215&linkCode=as2&tag=kristwilso-20).
 
 ### Use an Object Relationship Mapper (ORM)
 
-This isn't necessarily required to implement the Onion Architecture with PHP, but it sure makes a lot of sense. 
+This isn't necessarily required to implement the Onion Architecture with PHP, but it sure makes a lot of sense.
 
-We need to interact with the database someway, so we have a few options: 
+We need to interact with the database someway, so we have a few options:
 
  - Write straight dirty queries using PDO (if you're using anything lower level than PDO, shame on you).</li>
  - Use an ActiveRecord style design pattern</li>
@@ -193,64 +151,63 @@ referencing that component directly, reference an interface which defines its be
 we're using Doctrine and have a custom repository for our Orders (see our example above). In our domain, we'd have
 an interface that defines this repository:
 
-{% highlight php %}<?php
+```php
+<?php
 
 namespace Project\Domain\Order;
 
-interface OrderRepositoryInterface extends RepositoryInterface
-{
-    public function getActiveOrders();
-    public function getOrdersByCustomer($customerId);
-    public function getShippedOrders();
+interface OrderRepositoryInterface extends RepositoryInterface {
+  public function getActiveOrders();
+  public function getOrdersByCustomer($customerId);
+  public function getShippedOrders();
 }
-{% endhighlight %}
+```
 
 We define this interface that has the blueprint of the behavior of the actual repository, but as it's an interface,
 it lacks the details. Later, within a persistence layer, we'll actually define a repository that implements this
 interface:
 
-{% highlight php %}<?php
+```php
+<?php
 
 namespace Project\Persistence\Order;
 
 use Project\Domain\Order\OrderRepositoryInterface;
 
-class OrderRepository implements OrderRepositoryInterface extends AbstractRepository
-{
-    public function getActiveOrders() { }
-    public function getOrdersByCustomer($customerId) { }
-    public function getShippedOrders() { }
+class OrderRepository implements OrderRepositoryInterface extends AbstractRepository {
+  public function getActiveOrders() { }
+  public function getOrdersByCustomer($customerId) { }
+  public function getShippedOrders() { }
 }
-{% endhighlight %}
+```
 
 In our controller, which uses the repository to retrieve requested data, but is part of it's own layer, separate
 from both domain and persistence, we only bind the required resource using the interface, and leave it entirely up
 to the code responsible for creating the controller to pass in the correct implementation
 (see *Use Inversion of Control*) below.
 
-{% highlight php %}<?php
+```php
+<?php
 
 namespace Project\Orders;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Project\Domain\Order\OrderRepositoryInterface;
 
-class OrderController extends AbstractActionController
-{
-    protected $repository;
+class OrderController extends AbstractActionController {
+  protected $repository;
 
-    public function __construct(OrderRepositoryInterface $repo) 
-    {
-        $this->repository = $repo;
-    }
+  public function __construct(OrderRepositoryInterface $repo) {
+    $this->repository = $repo;
+  }
 }
-{% endhighlight %}
+```
 
 Notice that our front-end UI code depends only on our domain layer, and not the persistence layer directly. The code
 responsible for creating the controller will pass in the correct `OrderRepository` from the persistence layer, such
 that only that code has to be touched if the persistence layer is replaced by a different component.
 
-How do we get the correct repository into the OrderController::__construct()or?
+How do we get the correct repository into the `OrderController::__construct()` method?
 
 ### Use Inversion of Control
 
