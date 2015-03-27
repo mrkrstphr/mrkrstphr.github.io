@@ -16,10 +16,12 @@ title: mrkrstphr's blog
 
     <div class="pagination">
         {% if paginator.next_page %}
-        <a href="/page/{{ paginator.next_page }}" class="older">&laquo; Older Posts</a>
+        <a href="{{ paginator.next_page_path }}" class="older">&laquo; Older Posts</a>
         {% endif %}
-        {% if paginator.previous_page %}
-        <a href="/page/{{ paginator.previous_page }}" class="newer">Newer Posts &raquo;</a>
+        {% if paginator.page == 2 %}
+        <a href="/" class="newer">Newer Posts &raquo;</a>
+        {% elsif paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path }}" class="newer">Newer Posts &raquo;</a>
         {% endif %}
     </div>
 </section>

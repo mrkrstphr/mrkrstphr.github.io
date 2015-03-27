@@ -7,8 +7,6 @@ categories:
 tags:
 - javascript
 - deployment
-status: publish
-type: post
 published: true
 ---
 We have an application that is purely JavaScript (AngularJS), HTML and CSS that I was trying to figure out how to easily

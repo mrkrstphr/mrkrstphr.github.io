@@ -8,8 +8,6 @@ tags:
 - agile
 - scrum
 - standup
-status: publish
-type: post
 published: true
 ---
 
@@ -38,11 +36,11 @@ Members of the team already know what I did yesterday, because they can see the 
 the Scrum Board. And since the board is supposed to be visible at all times to all members of the scrum team (lest they
 leave to use the restroom), team members should be able to see me get up and physically move my task around the board.
 
-If they don't happen to see me move my task around, they probably noticed my Pull Request being put into 
-[GitHub](https://github.com), and various comments and discussions going back and forth on the code and feature. 
-Additionally, we use [HipChat](https://hipchat.com), which receives notifications of GitHub activity as well. 
+If they don't happen to see me move my task around, they probably noticed my Pull Request being put into
+[GitHub](https://github.com), and various comments and discussions going back and forth on the code and feature.
+Additionally, we use [HipChat](https://hipchat.com), which receives notifications of GitHub activity as well.
 
-Given that, my team pretty much knows when I finish a task, and actively collaborates on whether that task is 
+Given that, my team pretty much knows when I finish a task, and actively collaborates on whether that task is
 acceptable or not via the Pull Request.
 
 If you're not using collaborative source control tools, such as GitHub, BitBucket, etc, then you're probably not ready
@@ -65,7 +63,7 @@ I move a task into the "DOING" column.
 
 Waiting for the daily stand-up is a terrible way to deal with impediments. Sure, it's best to spend some time trying
 to solve problems on your own, but when you've decided you're stuck and need some help overcoming any kind of
-obstacle, you need to involve the ScrumMaster and/or the rest of the team as soon as possible. 
+obstacle, you need to involve the ScrumMaster and/or the rest of the team as soon as possible.
 
 You definitely don't want to spend upwards of 8 hours waiting to tell the ScrumMaster of an impediment.
 
@@ -88,38 +86,38 @@ I have three general arguments against the daily stand-up:
  starts, etc. So they end up starting at 9:00. For those in the office at 8:00 or sooner, the meeting then serves as
  an interruption when they're busy getting stuff done.
  3. The stand-up often becomes abused as a status meeting, especially for ScrumMasters and managers who don't understand
- or respect the process. It becomes a mechanism for former micro-managers to have one opportunity per day to to get 
+ or respect the process. It becomes a mechanism for former micro-managers to have one opportunity per day to to get
  people back under their thumbs.
- 
+
 The first tenant of the [Agile Manifesto](http://agilemanifesto.org/), the grand daddy document of all agile frameworks,
 reads:
 
 > Individuals and interactions over processes and tools
 
 If we hold individuals and interactions to be so important, then we should value frequent interaction throughout the
-day between members of the team and the ScrumMaster. Each member is not a silo, but a cog in a highly functioning 
+day between members of the team and the ScrumMaster. Each member is not a silo, but a cog in a highly functioning
 machine (you're much more than that; I'm terrible with analogies) that needs to work cohesively with the rest of the
-machine to function successfully. 
+machine to function successfully.
 
 The daily stand-up is a bandage for a team that fails to properly communicate and observe throughout the iteration.
 
 ## So what, then?
 
 My philosophy with Scrum has always been "do what works." I've never been a die hard scrum zealot; in fact, I strongly
-advocate against that. I believe each iteration is a chance to experiment with something new, find what works, and 
-abandon what doesn't. 
+advocate against that. I believe each iteration is a chance to experiment with something new, find what works, and
+abandon what doesn't.
 
-Frequent experimentation doesn't mean frequently changing the process. Most experiments will likely fail, and the team 
-will revert back to whatever was in place before. However, each iteration is a chance to learn how to make the team 
-better. 
+Frequent experimentation doesn't mean frequently changing the process. Most experiments will likely fail, and the team
+will revert back to whatever was in place before. However, each iteration is a chance to learn how to make the team
+better.
 
-If you think daily stand-ups are working great for your team -- and, more importantly, the team things that too -- 
-stick with them. If you're curious what life would be without them, then abandon them for a couple iterations and 
+If you think daily stand-ups are working great for your team -- and, more importantly, the team things that too --
+stick with them. If you're curious what life would be without them, then abandon them for a couple iterations and
 objectively observe what happens.
 
 The retrospective is a powerful tool for measuring an experiment and deciding whether a tweak to the process was a
 good one. Poll each member of them team and reflect on how things went with the change in place. What was better? What
 was worse? How did it feel?
 
-Personally, I don't think stand-ups are necessary; maybe your team does. My only suggestion: experiment and find out 
+Personally, I don't think stand-ups are necessary; maybe your team does. My only suggestion: experiment and find out
 for yourself.

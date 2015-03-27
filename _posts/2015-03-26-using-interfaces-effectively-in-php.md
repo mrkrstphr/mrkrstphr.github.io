@@ -1,5 +1,4 @@
 ---
-layout: post
 title: ! "Using Interfaces Effectively in PHP"
 excerpt: Interfaces in PHP contain no code; they're just a collection of thoughts. How is this useful?
 categories:
@@ -7,8 +6,6 @@ categories:
 tags:
 - php
 - oop
-status: publish
-type: post
 published: true
 ---
 
