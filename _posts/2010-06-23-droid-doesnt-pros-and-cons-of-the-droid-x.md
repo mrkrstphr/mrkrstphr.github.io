@@ -12,9 +12,8 @@ tags:
 status: publish
 type: post
 published: true
-meta:
-  _edit_last: '2'
 ---
+
 The Droid X by Motorola on Verizon was announced today (regardless of the fact that almost everything about it was
 already know for months due to leaks). Here's the skinny:
 

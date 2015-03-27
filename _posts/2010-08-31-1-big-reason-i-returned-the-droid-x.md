@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 I feel like a teenage girl the way I can't make up my mind lately. First I post an article on why the Droid X sucks,
 then I post an article on why I bought it anyway, and now I'm posting an article announcing that I returned it on the
 30th day of ownership. So why did I return it? Simple: Motorola is a dick.
@@ -41,4 +42,4 @@ of the manufacturer, and would rather support a manufacturer that encourages and
 The Samsung Fascinate is about to hit Verizon, and I might just buy that, but more than likely, I'll wait for the
 newly rumored 4.3" HTC device. Because HTC sounds like a company with policies I'd like to support.
 
-Thus ends the Droid X saga. 
+Thus ends the Droid X saga.

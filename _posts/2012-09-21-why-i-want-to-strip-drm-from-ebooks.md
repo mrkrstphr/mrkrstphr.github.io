@@ -14,6 +14,7 @@ status: publish
 type: post
 published: true
 ---
+
 I have purchased several books from Amazon for reading on the Kindle app on my Android Tablet and Smartphone. I'm
 still old fashioned in that I enjoy holding a physical book in my hands while reading it, but my growing bookshelf
 clogged with books I'll likely never read again have me rethinking it. So I've purchased a few books and graphic

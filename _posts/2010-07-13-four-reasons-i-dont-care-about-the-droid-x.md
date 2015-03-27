@@ -10,10 +10,8 @@ tags:
 status: publish
 type: post
 published: true
-meta:
-  _edit_last: '2'
-  _wp_old_slug: ''
 ---
+
 I'll be honest: there are a lot of reasons to be excited about this weeks release of Verizon's Droid X by Motorola.
 The device has some massively awesome specs: 4.3" screen, 1Ghz processor, 24 GB of storage out of the box, an 8MP
 Camera and HD video recording. Sounds great, but there are some definite show stoppers.

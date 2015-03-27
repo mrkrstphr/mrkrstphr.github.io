@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 After juggling around both an Android smartphone (HTC Thunderbolt) and an Android tablet (Samsung Galaxy Tab 10.1),
 there are two killer features I'd love to see in Android that I think would particularly help those who have both
 types of devices or help those who share a tablet with family members.

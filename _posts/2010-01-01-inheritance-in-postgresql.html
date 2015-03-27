@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Inheritance in PostgreSQL
+excerpt: Because, hell, why not?
 categories:
 - Database
 tags:
@@ -11,9 +12,9 @@ published: true
 meta:
   _edit_last: '2'
 ---
-Another cool feature I've recently discovered in PostgreSQL, although one available and documented for a long time, is table inheritance, which works almost exactly like object inheritance in object oriented programming. This simply means that you can have tables inheriting columns from parent tables. 
+Another cool feature I've recently discovered in PostgreSQL, although one available and documented for a long time, is table inheritance, which works almost exactly like object inheritance in object oriented programming. This simply means that you can have tables inheriting columns from parent tables.
 
-<!--more-->Let's look at an example. Say we want to store attributes about various cars and trucks. Since cars and trucks have many attributes in common, and instead of duplicating these columns across both tables, we're going to create a third table, automobiles, that both cars and trucks inherit from. 
+<!--more-->Let's look at an example. Say we want to store attributes about various cars and trucks. Since cars and trucks have many attributes in common, and instead of duplicating these columns across both tables, we're going to create a third table, automobiles, that both cars and trucks inherit from.
 
 <pre lang="sql">CREATE TABLE automobiles(
     autombile_id serial primary key,
@@ -38,11 +39,11 @@ The <code>INHERITS</code> keyword specifies which tables the new table inherits 
 Let's insert some data. When inserting into sub tables, we can also reference and populate parent columns:
 
 <pre lang="sql">
-INSERT INTO cars(make, model, color, year, doors) 
+INSERT INTO cars(make, model, color, year, doors)
     VALUES('Chevrolet', 'Equinox', 'Orange', 2009, 4);
-INSERT INTO trucks(make, model, color, year, bed_size, hitch_size, weight_capacity) 
+INSERT INTO trucks(make, model, color, year, bed_size, hitch_size, weight_capacity)
     VALUES('Toyota', 'Tundra', 'Black', 2009, '160 sq ft', '40 mm', 140);
-INSERT INTO automobiles(make, model, color, year) 
+INSERT INTO automobiles(make, model, color, year)
     VALUES('Holda', 'Pilot', 'Green', 2009);
 </pre>
 

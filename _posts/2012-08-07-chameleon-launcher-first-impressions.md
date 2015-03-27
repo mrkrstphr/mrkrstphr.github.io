@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 ![Chameleon Launcher]({{ site.url }}/images/2012/08/chameleon-launcher.png)
 
 Last night, I received my beta login for Chameleon App, which I purchased on KickStarter shortly after they launched.

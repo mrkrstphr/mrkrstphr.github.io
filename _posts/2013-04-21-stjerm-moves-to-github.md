@@ -12,6 +12,7 @@ status: publish
 type: post
 published: true
 ---
+
 stjerm started out being hosted on gna.org, and I moved it over to Google Code Hosting shortly after taking over the
 project. That was quite awhile ago, and since then, git, and the git hosting platform GitHub, have become quite
 awesome. GitHub has an intuitive, beautiful user interface, with fantastic issue tracking, merge requests and

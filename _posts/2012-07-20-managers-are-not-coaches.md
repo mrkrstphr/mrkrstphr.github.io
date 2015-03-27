@@ -12,6 +12,7 @@ status: publish
 type: post
 published: true
 ---
+
 While at a training seminar this week, I overheard one of the participants, during a discussion, mention that he was
 a manager of software developers. He quickly corrected himself saying "I'm the coach." Apparently he didn't like to be
 referred to as management and the term "coach" seemed to tickle his fancy. This statement literally left me 

@@ -16,6 +16,7 @@ status: publish
 type: post
 published: true
 ---
+
 In the United States, we're dominated by several wireless radio technologies that cellular devices operate on:
 CDMA, GSM, HSPA, LTE, WiMAX (and possibly more). What's the problem with this?
 

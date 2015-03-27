@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 After spending a year and half in a hell called MacBook, I'm finally back on Ubuntu, and couldn't be happier about
 that fact. I installed Ubuntu 12.04. Since this version is a [LTS](https://wiki.ubuntu.com/LTS/), I figured it would
 be a pretty stable build, especially since Ubuntu seems to take their time slipping new versions of software into

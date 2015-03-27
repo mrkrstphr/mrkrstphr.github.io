@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Failed Kernel Upgrade
+excerpt: ! "PROTIP: don't run out of space on your /boot partition"
 categories:
 - Linux
 tags:
@@ -23,8 +24,8 @@ List of all partitions:
 No file system could mount root, tried: ...
 Kernel panic - not syncing: VFS: unable to mount root fs on unknown-block(1,0)</blockquote>
 
-After painful research, I finally discovered the problem: I ran out of space on my boot partition. 
+After painful research, I finally discovered the problem: I ran out of space on my boot partition.
 
-Apparently genkernel does not complain when it runs out of space to compile the kernel. It just stops and outputs the same message it would it if succeeded. 
+Apparently genkernel does not complain when it runs out of space to compile the kernel. It just stops and outputs the same message it would it if succeeded.
 
 A "quick" use of parted to allocate more space to the boot partition, and re-compiling the kernel solved the problem. It's just sad that genkernel doesn't bother reporting the fact that it ran out of space.

@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 In 2008, I took over development of a project called [Stjerm](http://stjerm-terminal.googlecode.com) from Markus Groß 
 (who himself took over development from the original author, Stjepan Glavina) and, over the years, have slowly added
 in features, as well as moved the project over to Google Code Hosting from Gna. Then I switched over to using a MacBook,

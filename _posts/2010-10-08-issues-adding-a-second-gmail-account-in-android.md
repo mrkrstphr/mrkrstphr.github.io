@@ -15,6 +15,7 @@ meta:
   _edit_last: '2'
   _wp_old_slug: ''
 ---
+
 <div class="alert alert-warning">
     <span class="glyphicon glyphicon-info-sign"></span>
     Whoa there, friend. This post is quite old and the solution may no longer be relevant. Just a fair warning...
@@ -36,4 +37,4 @@ this error for days. Until I found the wonky solution.
  - Go to Settings / Accounts and Sync, then scroll down to Manage Accounts.
  - You should see your new Gmail account listed. Open it up and change your sync settings to your desire.
 
-It seems stupid; it seems like it won't work. But it does. Go figure. 
+It seems stupid; it seems like it won't work. But it does. Go figure.

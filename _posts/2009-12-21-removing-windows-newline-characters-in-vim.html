@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Removing Windows Newline Characters in Vim
+excerpt: How to break up the ^M party.
 categories:
 - Linux
 - Programming
@@ -10,18 +11,6 @@ tags:
 status: publish
 type: post
 published: true
-meta:
-  _edit_last: '2'
-  _jd_tweet_this: 'yes'
-  _jd_twitter: ''
-  _wp_jd_clig: ''
-  _wp_jd_bitly: ''
-  _wp_jd_wp: ''
-  _wp_jd_yourls: ''
-  _wp_jd_url: ''
-  _wp_jd_target: ''
-  _jd_wp_twitter: ''
-  _jd_post_meta_fixed: 'true'
 ---
 Sometimes when working on projects in both Linux and Windows, a file will end up with Windows newline characters, which show up as ^M in Vim. Annoying as this is, there's a quick fix to remove them in Vim using a regular expression replace:
 

@@ -10,6 +10,7 @@ status: publish
 type: post
 published: true
 ---
+
 We've recently been interviewing candidates to fill two PHP Developer positions, and I've been astounded with the
 gaping holes in knowledge that just about all of the candidates have:
 

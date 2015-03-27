@@ -13,11 +13,12 @@ status: publish
 type: post
 published: true
 ---
+
 In my last post, [Four Reasons I Don't Care about the Droid X](/2010/07/13/four-reasons-i-dont-care-about-the-droid-x/),
 I whined about... well, four reasons I didn't care about the Droid X. Open mouth, insert foot: I just back-ordered a
 Droid X. Bah!
 
-So I present to you, Four Reasons I Bought the Droid X: 
+So I present to you, Four Reasons I Bought the Droid X:
 
  - **Big Fucking Screen** The screen is just absolutely huge. While I wish it was a tad shorter, and a
 tad wider (like the beautiful EVO 4G), it's still great. Initially, I was worried how it would feel in my hand or if
@@ -34,4 +35,4 @@ keyboard and mouse solution, and I'm hoping this phone will eventually be my com
  - **It has the Bigger GBs** Okay, this really doesn't matter at all as you can easily upgrade the SD card in the
 Incredible, but the fact that the X comes preloaded with 8 GB internal and a 16 GB SD card is just boss.
 
-So after my whiny bitching about it being ugly and locked down, I still bought the Droid X. 
+So after my whiny bitching about it being ugly and locked down, I still bought the Droid X.

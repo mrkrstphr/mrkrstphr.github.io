@@ -11,6 +11,7 @@ status: publish
 type: post
 published: true
 ---
+
 I am pleased to announce the immediate release of stjerm version 0.16.4. This version is a maintenance release,
 which fixes a number of issues:
 

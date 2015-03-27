@@ -13,6 +13,7 @@ status: publish
 type: post
 published: true
 ---
+
 After playing with the leaked Google TV Honeycomb build and now the official OTA for the Logitech Revue, I've come
 to the personal conclusion that I still don't like it. I still don't think it has that polished touch that gets me
 excited about it or even want to use it. Now before I continue, I'll point out first and formost that I don't know

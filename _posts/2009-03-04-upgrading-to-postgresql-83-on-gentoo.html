@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Upgrading to PostgreSQL 8.3 on Gentoo
+excerpt: Unmasking PostgreSQL 8.3 in Portage to join the future.
 categories:
 - Database
 - Linux
@@ -23,7 +24,7 @@ meta:
   _jd_wp_twitter: ''
   _jd_post_meta_fixed: 'true'
 ---
-Gentoo has taken a long time to unmask PostgreSQL 8.3 in Portage. Currently, the best version you can get is. 8.0.5, which, if you can tell, is pretty far away from 8.3. 
+Gentoo has taken a long time to unmask PostgreSQL 8.3 in Portage. Currently, the best version you can get is 8.0.5, which, if you can tell, is pretty far away from 8.3.
 
 This masking is largely due to the painful process of upgrading PostgreSQL (which usually involves dumping all your databases and restoring them afterwards). Here's what I did to get 8.3 up and running.
 
@@ -38,7 +39,7 @@ echo "dev-db/postgresql-server ~amd64" >> /etc/portage/package.keywords
 echo "virtual/postgresql-server ~amd64" >> /etc/portage/package.keywords
 echo "virtual/postgresql-base ~amd64" >> /etc/portage/package.keywords</pre>
 
-Make sure to replace amd64 with your actual architecture. 
+Make sure to replace amd64 with your actual architecture.
 
 Now, we're going to unemerge PostgreSQL so we can emerge the new version:
 
@@ -55,7 +56,7 @@ Make sure to replace the version above with the one you actually installed. Now 
 
 <pre class="prettyprint">psql -U postgres -f postgres-backup.dump template1</pre>
 
-And you should be all set. 
+And you should be all set.
 
 Helpful Links:
 
