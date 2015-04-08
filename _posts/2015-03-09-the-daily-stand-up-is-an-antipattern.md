@@ -111,7 +111,7 @@ Frequent experimentation doesn't mean frequently changing the process. Most expe
 will revert back to whatever was in place before. However, each iteration is a chance to learn how to make the team
 better.
 
-If you think daily stand-ups are working great for your team -- and, more importantly, the team things that too --
+If you think daily stand-ups are working great for your team -- and, more importantly, the team thinks that too --
 stick with them. If you're curious what life would be without them, then abandon them for a couple iterations and
 objectively observe what happens.
 
