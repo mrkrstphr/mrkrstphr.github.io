@@ -2,7 +2,6 @@ name: mrkrstphr's blog
 description: The ramblings of a Softare Developer
 safe: true
 lsi: false
-markdown: redcarpet
 highlighter: rouge
 permalink: /:year/:month/:day/:title
 paginate: 10
