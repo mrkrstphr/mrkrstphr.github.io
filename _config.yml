@@ -3,14 +3,13 @@ description: The ramblings of a Softare Developer
 safe: true
 lsi: false
 markdown: redcarpet
-highlighter: pygments
+highlighter: rouge
 permalink: /:year/:month/:day/:title
 paginate: 10
-paginate_path: "/page/:num"
+paginate_path: '/page/:num'
 url: http://kristopherwilson.com
 defaults:
-  -
-    scope:
-      path: ""
+  - scope:
+      path: ''
     values:
-      layout: "default"
+      layout: 'default'
