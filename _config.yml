@@ -3,7 +3,7 @@ description: The ramblings of a Softare Developer
 safe: true
 lsi: false
 highlighter: rouge
-permalink: /:year/:month/:day/:title
+permalink: /:year/:month/:day/:title/
 paginate: 10
 paginate_path: '/page/:num'
 url: http://kristopherwilson.com
